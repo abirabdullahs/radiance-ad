@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abir Abdullah – Radiance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-deep: #0a1a5c;
+      --blue-mid:  #1040b0;
+      --blue-bright: #1565f5;
+      --blue-light: #3a86ff;
+      --cyan: #00d4ff;
+      --white: #ffffff;
+      --gold: #f9c932;
+      --radius: 18px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      background: var(--blue-deep);
+      color: var(--white);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ── BACKGROUND ── */
+    .bg-wrap {
+      position: fixed; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 120% 80% at 70% 20%, #1565f5 0%, #0a1a5c 60%, #060e33 100%);
+      overflow: hidden;
+    }
+    .bg-wrap::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); opacity: .35;
+      animation: float 8s ease-in-out infinite alternate;
+    }
+    .orb1 { width: 500px; height: 500px; background: var(--blue-bright); top: -100px; right: -100px; }
+    .orb2 { width: 350px; height: 350px; background: var(--cyan); bottom: -80px; left: -60px; animation-delay: -4s; }
+    @keyframes float { from { transform: translateY(0) scale(1); } to { transform: translateY(-30px) scale(1.05); } }
+
+    /* ── LAYOUT ── */
+    .page { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 16px 60px; }
+
+    /* ── NAV ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 0 10px;
+      animation: fadeDown .6s ease both;
+    }
+    .logo-wrap { display: flex; align-items: center; gap: 10px; }
+    .logo-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue-bright), var(--cyan));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900; font-family: 'Poppins', sans-serif;
+      color: white; box-shadow: 0 4px 20px rgba(21,101,245,.5);
+    }
+    .logo-text { line-height: 1.1; }
+    .logo-text strong { font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 800; letter-spacing: .5px; }
+    .logo-text span { display: block; font-size: .68rem; opacity: .7; letter-spacing: 1px; text-transform: uppercase; }
+    .badge-live {
+      background: linear-gradient(90deg, #ff3e55, #ff6b35);
+      font-size: .7rem; font-weight: 700; letter-spacing: 1px;
+      padding: 5px 14px; border-radius: 50px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,62,85,.4)} 50%{box-shadow:0 0 0 10px rgba(255,62,85,0)} }
+
+    /* ── HERO CARD ── */
+    .hero-card {
+      margin-top: 18px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 28px;
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      animation: fadeUp .7s .2s ease both;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 0;
+      min-height: 360px;
+    }
+
+    /* photo side */
+    .photo-side {
+      position: relative;
+      display: flex; align-items: flex-end; justify-content: center;
+      background: linear-gradient(135deg, rgba(21,101,245,.3) 0%, rgba(0,212,255,.15) 100%);
+      padding: 24px 0 0;
+      overflow: hidden;
+    }
+    .photo-side::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+      background: linear-gradient(to top, rgba(10,26,92,.6), transparent);
+    }
+    .photo-upload-area {
+      width: 100%; display: flex; flex-direction: column; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .photo-frame {
+      width: 200px; height: 230px;
+      border-radius: 20px 20px 0 0;
+      object-fit: cover; object-position: top center;
+      display: block;
+      box-shadow: 0 -10px 40px rgba(21,101,245,.4);
+    }
+    .photo-placeholder {
+      width: 200px; height: 230px;
+      border-radius: 20px 20px 0 0;
+      background: linear-gradient(135deg, rgba(21,101,245,.4), rgba(0,212,255,.2));
+      border: 2px dashed rgba(255,255,255,.3);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; color: rgba(255,255,255,.5); font-size: .8rem;
+    }
+    .photo-placeholder span { font-size: 2.5rem; }
+
+    /* info side */
+    .info-side {
+      padding: 32px 28px 32px 20px;
+      display: flex; flex-direction: column; justify-content: center; gap: 18px;
+    }
+    .course-label {
+      display: inline-block;
+      background: rgba(0,212,255,.15); border: 1px solid rgba(0,212,255,.3);
+      color: var(--cyan); font-size: .7rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 5px 14px; border-radius: 50px;
+      width: fit-content;
+    }
+    .hero-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 900; line-height: 1.15;
+    }
+    .hero-title .amp { color: var(--cyan); }
+    .hero-title .highlight { color: var(--gold); }
+
+    .subjects { display: flex; flex-wrap: wrap; gap: 8px; }
+    .subject-pill {
+      padding: 7px 18px; border-radius: 50px;
+      font-size: .82rem; font-weight: 700;
+      border: 2px solid rgba(255,255,255,.9);
+      color: white; background: transparent;
+      transition: all .25s;
+      cursor: default;
+    }
+    .subject-pill:hover { background: var(--white); color: var(--blue-deep); transform: translateY(-2px); }
+    .subject-pill.active { background: white; color: var(--blue-deep); }
+
+    /* ── TEACHER CARD ── */
+    .teacher-card {
+      margin-top: 16px;
+      background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 20px;
+      padding: 20px 24px;
+      display: flex; align-items: center; gap: 16px;
+      animation: fadeUp .7s .35s ease both;
+    }
+    .avatar-ring {
+      width: 60px; height: 60px; flex-shrink: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--blue-bright));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 900; color: white;
+      box-shadow: 0 0 0 3px rgba(0,212,255,.4);
+    }
+    .teacher-info { flex: 1; }
+    .teacher-name { font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 800; }
+    .teacher-sub { font-size: .8rem; opacity: .65; margin-top: 2px; }
+    .buet-badge {
+      background: linear-gradient(90deg, var(--gold), #f97316);
+      color: #1a0a00; font-size: .72rem; font-weight: 800; letter-spacing: .5px;
+      padding: 5px 14px; border-radius: 50px; flex-shrink: 0;
+    }
+
+    /* ── FEATURES GRID ── */
+    .section-title {
+      font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 800;
+      letter-spacing: 2px; text-transform: uppercase; opacity: .6;
+      margin: 32px 0 14px; padding-left: 4px;
+      animation: fadeUp .7s .4s ease both;
+    }
+    .features-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      animation: fadeUp .7s .5s ease both;
+    }
+    .feature-card {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px; padding: 18px 20px;
+      display: flex; align-items: center; gap: 14px;
+      transition: transform .25s, background .25s;
+      cursor: default;
+    }
+    .feature-card:hover { transform: translateY(-4px); background: rgba(255,255,255,.12); }
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .ic1 { background: linear-gradient(135deg,#3a86ff,#1565f5); }
+    .ic2 { background: linear-gradient(135deg,#f9c932,#f97316); }
+    .ic3 { background: linear-gradient(135deg,#00d4ff,#1565f5); }
+    .ic4 { background: linear-gradient(135deg,#ff3e55,#c800ff); }
+    .ic5 { background: linear-gradient(135deg,#43e97b,#38f9d7); }
+    .ic6 { background: linear-gradient(135deg,#fa709a,#f9c932); }
+    .feature-text strong { display: block; font-size: .9rem; font-weight: 700; }
+    .feature-text span { font-size: .75rem; opacity: .6; }
+
+    /* ── CONTACT CARD ── */
+    .contact-card {
+      margin-top: 14px;
+      background: linear-gradient(135deg, rgba(21,101,245,.25), rgba(0,212,255,.1));
+      border: 1px solid rgba(0,212,255,.3);
+      border-radius: 20px; padding: 24px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      animation: fadeUp .7s .6s ease both;
+    }
+    .contact-item { display: flex; align-items: center; gap: 12px; }
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+      background: rgba(255,255,255,.12);
+    }
+    .contact-item strong { display: block; font-size: .78rem; opacity: .55; text-transform: uppercase; letter-spacing: .5px; }
+    .contact-item a, .contact-item p { font-size: .95rem; font-weight: 700; color: white; text-decoration: none; }
+    .contact-item a:hover { color: var(--cyan); }
+
+    /* ── CTA BUTTON ── */
+    .cta-wrap { margin-top: 20px; text-align: center; animation: fadeUp .7s .7s ease both; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(90deg, var(--blue-bright), var(--cyan));
+      color: white; font-family: 'Poppins', sans-serif;
+      font-size: 1rem; font-weight: 800; letter-spacing: .5px;
+      padding: 14px 36px; border-radius: 50px; border: none;
+      cursor: pointer; text-decoration: none;
+      box-shadow: 0 8px 30px rgba(21,101,245,.5);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(21,101,245,.7); }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 40px; text-align: center;
+      font-size: .75rem; opacity: .35; letter-spacing: .5px;
+      animation: fadeUp .7s .8s ease both;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(24px);  } to { opacity:1; transform:translateY(0); } }
+
+    /* ── MOBILE ── */
+    @media (max-width: 620px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .photo-side { padding: 24px 0 0; min-height: 200px; }
+      .photo-frame, .photo-placeholder { width: 160px; height: 190px; }
+      .info-side { padding: 24px 20px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .contact-card { grid-template-columns: 1fr; }
+      .teacher-card { flex-direction: column; text-align: center; }
+      .buet-badge { margin-top: 4px; }
+      nav { gap: 10px; }
+    }
+    @media (max-width: 400px) {
+      .hero-title { font-size: 1.45rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-wrap">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+</div>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo-wrap">
+      <div class="logo-icon">R</div>
+      <div class="logo-text">
+        <strong>Radiance</strong>
+        <span>Academic Guidance &amp; Admission Support</span>
+      </div>
+    </div>
+    <div class="badge-live">● LIVE</div>
+  </nav>
+
+  <!-- HERO CARD -->
+  <div class="hero-card">
+    <div class="hero-inner">
+      <!-- Photo -->
+      <div class="photo-side">
+        <div class="photo-upload-area">
+          <img
+            src="/mnt/user-data/uploads/10298.jpg"
+            alt="Abir Abdullah"
+            class="photo-frame"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="photo-placeholder" style="display:none;">
+            <span>👤</span>
+            <p>Photo</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="info-side">
+        <span class="course-label">SSC / Dakhil &nbsp;·&nbsp; HSC / Alim</span>
+
+        <h1 class="hero-title">
+          SSC/Dakhil<br>
+          <span class="amp">&amp;</span> HSC/<span class="highlight">Alim</span>
+        </h1>
+
+        <div class="subjects">
+          <span class="subject-pill active">Chemistry</span>
+          <span class="subject-pill">Math</span>
+          <span class="subject-pill">ICT</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEACHER -->
+  <div class="teacher-card">
+    <div class="avatar-ring">AA</div>
+    <div class="teacher-info">
+      <div class="teacher-name">Abir Abdullah</div>
+      <div class="teacher-sub">Computer Science &amp; Engineering</div>
+    </div>
+    <div class="buet-badge">🏛️ BUET</div>
+  </div>
+
+  <!-- FEATURES -->
+  <p class="section-title">আমাদের Resources</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon ic1">📖</div>
+      <div class="feature-text">
+        <strong>Concept Book</strong>
+        <span>সহজ ভাষায় মূল বিষয়</span>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon ic2">✏️</div>
+      <div class="feature-text">
+        <strong>Practice Book</strong>
+        <span>প্রচুর অনুশীলনী</span>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon ic3">💡</div>
+      <div class="feature-text">
+        <strong>Suggestion Book</strong>
+        <span>পরীক্ষার সেরা সাজেশন</span>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon ic4">🏦</div>
+      <div class="feature-text">
+        <strong>Question Bank</strong>
+        <span>Admission &amp; Board প্রশ্ন</span>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon ic5">📝</div>
+      <div class="feature-text">
+        <strong>Regular Exam</strong>
+        <span>নিয়মিত মূল্যায়ন</span>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon ic6">🎯</div>
+      <div class="feature-text">
+        <strong>Solve Class</strong>
+        <span>সমস্যা সমাধান ক্লাস</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-card">
+    <div class="contact-item">
+      <div class="contact-icon">📞</div>
+      <div>
+        <strong>যোগাযোগ করুন</strong>
+        <a href="tel:01406751374">01406-751374</a>
+      </div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">📍</div>
+      <div>
+        <strong>ঠিকানা</strong>
+        <p>Ovijan 9, Old Book Market,<br>College Gate, Tongi, Gazipur</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-wrap">
+    <a href="tel:01406751374" class="cta-btn">
+      📲 এখনই যোগাযোগ করুন
+    </a>
+  </div>
+
+  <footer>© 2025 Radiance – Academic Guidance &amp; Admission Support</footer>
+
+</div>
+</body>
+</html>
