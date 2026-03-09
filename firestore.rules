@@ -1,0 +1,12 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /invoices/{invoiceId} {
+      // Anyone can READ (for payment status check by invoice number)
+      allow read: if true;
+      
+      // Only authenticated users (admins) can write
+      allow write: if request.auth != null;
+    }
+  }
+}
